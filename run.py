@@ -1,18 +1,55 @@
 from bottle import route, run, template, static_file
-import os
+import os, bottle, random
+
+curdir =  os.path.dirname(os.path.abspath(__file__))
+bottle.TEMPLATE_PATH.insert(0, curdir + '/template/')
+
+print(">>>>>>>>>>>>>>" + curdir)
 
 @route('/')
 def index():
     return send_static('index.html')
 
-@route('/hello')
-@route('/hello/<name>')
-def index(name='World'):
-    return template('<b>Hello {{name}}</b>!', name=name)
+@route('/test')
+@route('/test/<title>')
+def index(title='Test'):
+    random_image()
+    return server_static("index.html")
 
-@route('/static/<filename:path>')
-def send_static(filename):
-    print("loading /static/" + filename)
-    return static_file(filename, os.getcwd() +  '/static/') 
+@route('/drill')
+def generate_question():
+    return template('drill.tpl', imgpath="/static/img/" + random_image(), imgalt="Question", question="What is your opinion on airplane wings?")
+
+def random_image():
+    filelist = os.listdir(curdir + "/static/img/") 
+    numimg = 0
+    for f in filelist:
+        if f.endswith(".png") or f.endswith(".jpg"): 
+            print("Found image " + f)
+            numimg+= 1
+            continue
+        else:
+            continue
+        
+    print("Total number of images in dir " + str(numimg))
+    rand = random.randrange(numimg)
+ 
+    iterimg = 0 
+    for f in filelist:
+        if f.endswith(".png") or f.endswith(".jpg"): 
+            print("Found image " + f)
+            if rand == iterimg:
+                return f
+            iterimg+= 1
+            continue
+        else:
+            continue
+ 
+
+#Can use slashes!  I don't know what this does but it works ;)
+@route('/static/:path#.+#')
+def server_static(path):
+    print("LOADING IMAGE FROM: " + curdir + "/static/" + path)
+    return static_file(path, root=curdir + "/static/")
 
 run(host='localhost', port=8080)
