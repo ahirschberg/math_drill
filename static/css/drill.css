@@ -1,8 +1,20 @@
 body {
-    background-color:#B8B894;
 }
-div {
-    margin-top:10px;
+footer {
+    position:static;
+    margin-bottom:20px;
     font-size:20px;
-    /*color: blue;*/
+    text-align:center;
+    padding: 5px;
+}
+p {
+    font-size:25px;
+    text-align:center;
+}
+img {
+    text-align:center;
+    width:35%;
+}
+button {
+    font-size:inherit;
 }
