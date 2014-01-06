@@ -8,10 +8,11 @@ cur = conn.cursor()
 
 def createAccount(username, password, salt, dbInsert):
     commandInsecure = 'INSERT INTO users VALUES(%s, %s, %s)' % (username, password.hexdigest(), salt)
-    if (dbInsert.lower() == 'yes'):
+    if (dbInsert.lower() == 'yes' or dbInsert.lower() == 'y'):
         cur.execute('INSERT INTO users VALUES(?,?,?)', (username, password.hexdigest(), salt))
         conn.commit()
         cur.close
+        print('Entered into database.')
     else:
         print('Did not enter into database.\nSQL command is', commandInsecure)
 

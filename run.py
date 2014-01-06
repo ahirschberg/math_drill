@@ -41,10 +41,13 @@ SESSIONID_COOKIE_STRING = 'math-drill_SID'
 
 @app.route('/')
 def index():
-    #createAccount('testuser', 'pass')
     students = getStudents()
-    student = students[random.randint(0, len(students) - 1)]
+    student = ('No students - add them in the admin menu!', None)
+    if (len(students) > 1):
+        student = students[random.randint(0, len(students) - 1)]
+    
     question = questions[random.randint(0, len(questions) - 1)]
+    
     return bottle.template('drill.tpl',
                            imgpath="/static/img/" + question[1],
                            imgalt="Question",
@@ -123,7 +126,7 @@ def postLogin():
 
 
 def checkAuth():
-    return "Insecure"
+    #return "Insecure"
     print (accounts)
     for account in accounts:
         authCookie = request.get_cookie(SESSIONID_COOKIE_STRING, secret=account[1])
