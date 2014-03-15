@@ -1,4 +1,4 @@
-<p><img src="{{imgpath}}" alt="{{imgalt}}"</img></p>
+<p><img src="{{imgpath}}" alt="{{imgalt}}"></p>
 <p>{{student}}, please {{question}}.</p>
 <footer>
 <button onClick="location.reload(true)">New question</button>

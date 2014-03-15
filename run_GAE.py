@@ -17,9 +17,14 @@ if (len(sys.argv) > 1 and (sys.argv[1] == '-l' or sys.argv[1] == '-local')):
     dev = True
     print('RUNNING IN LOCAL MODE (Non Google App Engine)')
 
-app = bottle
+if dev:
+    app = bottle
+else:
+    app = Bottle()
 
-curdir = os.path.dirname(os.path.abspath(__file__)) + '/'
+curdir = ''
+if dev:
+    curdir = os.path.dirname(os.path.abspath(__file__)) + '/'
 
 bottle.TEMPLATE_PATH.insert(0, curdir + 'template/')
 
@@ -36,11 +41,9 @@ SESSIONID_COOKIE_STRING = 'math-drill_SID'
 
 @app.route('/')
 def index():
-    #print(cur.execute('SELECT * FROM USERS').fetchall())
     students = getStudents()
-    print(students)
-    student = ('No students - add them in the admin menu!',)
-    if (len(students) > 0):
+    student = ('No students - add them in the admin menu!', None)
+    if (len(students) > 1):
         student = students[random.randint(0, len(students) - 1)]
     
     question = questions[random.randint(0, len(questions) - 1)]
@@ -54,7 +57,6 @@ def index():
 
 @app.route('/static/:path#.+#')
 def server_static(path):
-    print(curdir + '/static/' + path)
     return bottle.static_file(path, root=curdir + "/static/")
 
 
@@ -96,7 +98,7 @@ def postLogin():
     password = request.forms.get('password')
     print('/login/submit:', accounts)
     sqlCmd = 'SELECT * FROM users WHERE id = ?'
-    #print(sqlCmd)
+    print(sqlCmd)
     # Execute command, securely replacing '?' with username, contained in a tuple
     filedPassword = cur.execute(sqlCmd, (username, )).fetchone()
     print(filedPassword)
@@ -196,8 +198,7 @@ def postStudents():
 def getStudents():
     return cur.execute('SELECT * FROM students').fetchall()
 
-#if dev:
-if __name__ == '__main__':
+if dev:
     bottle.run(debug=True)
-#else:
-#    bottle.run(app=app, server="gae", debug=True) 
+else:
+    bottle.run(app=app, server="gae", debug=True) 

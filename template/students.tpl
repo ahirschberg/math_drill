@@ -7,9 +7,14 @@
 %end
 
 <form action="submit/" method="post">
+    <table>
+    <tr><th>Student</th><th>Delete</th></tr>
     % for student in students:
-    {{student[0]}}: <input type="checkbox" name="{{student[0]}}_delete" value="del"><br>
+    <tr>
+    <td>{{student[0]}}:</td> <td><input type="checkbox" name="{{student[0]}}_delete" value="del"></td>
+    </tr>
     % end
+    </table>
     <textarea name="add_students" cols="40" rows="5" placeholder="Input one name on each line"></textarea>
     <input type="submit" value="Submit"> 
 </form>

@@ -15,10 +15,10 @@ create table questions (
 
 
 /*Accounts*/
+/*Use accountcreation.py instead*/
 
-/*Students*/
-INSERT INTO students (studentname) VALUES('John 117');
-INSERT INTO students (studentname) VALUES('John Johnson');
+/*Students - Use the web interface instead*/
+/*INSERT INTO students (studentname) VALUES('John 117');*/
 
 /*Question and image pairs*/
 INSERT INTO questions VALUES('find the circumference of the circle if r = 2', 'q1.png');
